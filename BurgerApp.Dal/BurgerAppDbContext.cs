@@ -2,7 +2,7 @@
 
 namespace BurgerApp.Dal
 {
-	public class Class1
+	public class BurgerAppDbContext
 	{
 	}
 }

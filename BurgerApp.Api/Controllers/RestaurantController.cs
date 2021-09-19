@@ -2,7 +2,7 @@
 
 namespace BurgerApp.Api
 {
-	public class Class1
+	public class RestaurantController
 	{
 	}
 }
