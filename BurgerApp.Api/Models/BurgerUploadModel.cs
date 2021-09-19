@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BurgerApp.Api.Services
+namespace BurgerApp.Api
 {
-	class RestaruantService
+	public class BurgerUploadModel
 	{
+
 	}
 }

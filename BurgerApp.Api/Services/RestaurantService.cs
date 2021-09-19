@@ -5,11 +5,11 @@ using System.Text;
 
 namespace BurgerApp.Api.Services
 {
-	public class BurgerService
+	public class RestaurantService
 	{
 		private BurgerAppDbContext DbContext { get; }
 
-		public BurgerService(BurgerAppDbContext dbContext)
+		public RestaurantService(BurgerAppDbContext dbContext)
 		{
 			DbContext = dbContext;
 		}
