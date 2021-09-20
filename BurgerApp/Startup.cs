@@ -2,9 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BurgerApp.Api.Configurations;
+using BurgerApp.Api.Services;
+using BurgerApp.Dal;
+using BurgerApp.Dal.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +29,16 @@ namespace BurgerApp
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<BurgerAppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+
+			services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<BurgerAppDbContext>().AddDefaultTokenProviders();
+
+			services.AddScoped<IRestaurantService, RestaurantService>();
+			services.AddScoped<IBurgerService, BurgerService>();
+
+			services.Configure<PagingConfiguration>(Configuration.GetSection("Paging"));
+
+			services.AddControllers();
 			services.AddRazorPages();
 		}
 
@@ -45,6 +61,7 @@ namespace BurgerApp
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>

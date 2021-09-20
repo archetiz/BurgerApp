@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BurgerApp.Api.Services
 {
-	public class BurgerService
+	public class BurgerService : IBurgerService
 	{
 		private BurgerAppDbContext DbContext { get; }
 
