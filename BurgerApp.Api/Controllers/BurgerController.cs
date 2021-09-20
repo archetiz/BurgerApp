@@ -1,14 +1,13 @@
 ﻿using BurgerApp.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BurgerApp.Api
 {
 	[ApiController]
 	[Route("api/burger")]
+	[Authorize]
 	class BurgerController : ControllerBase
 	{
 		private BurgerService BurgerService { get; }
@@ -19,9 +18,7 @@ namespace BurgerApp.Api
 		}
 
 		[HttpPost]
-		public void UploadBurger(BurgerUploadModel model)
-		{
-
-		}
+		public async Task<AddResult> UploadBurger(BurgerUploadModel model)
+			=> await BurgerService.UploadBurger(model);
 	}
 }

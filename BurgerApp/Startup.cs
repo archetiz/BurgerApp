@@ -33,7 +33,8 @@ namespace BurgerApp
 			services.AddScoped<IRestaurantService, RestaurantService>();
 			services.AddScoped<IBurgerService, BurgerService>();
 
-			services.Configure<PagingConfiguration>(Configuration.GetSection("Paging"));
+			services.Configure<PagingConfiguration>(options => Configuration.GetSection("Paging").Bind(options));
+			services.Configure<UploadsConfiguration>(options => Configuration.GetSection("Uploads").Bind(options));
 
 			services.AddControllers();
 			services.AddRazorPages();
