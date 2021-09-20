@@ -1,4 +1,5 @@
 ﻿using BurgerApp.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,6 +7,7 @@ namespace BurgerApp.Api
 {
 	[ApiController]
 	[Route("api/restaurant")]
+	[Authorize]
 	public class RestaurantController : ControllerBase
 	{
 		public IRestaurantService RestaurantService { get; set; }

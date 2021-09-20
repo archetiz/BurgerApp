@@ -3,6 +3,7 @@ using BurgerApp.Dal;
 using BurgerApp.Dal.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,10 +44,12 @@ namespace BurgerApp.Api.Services
 		{
 			var rating = DbContext.Ratings.Add(new Rating()
 			{
+				Id = Guid.NewGuid(),
 				Taste = model.TasteRating ?? 0,
 				Texture = model.TextureRating ?? 0,
 				VisualPresentation = model.VisualPresentationRating ?? 0,
 				Comment = model.Comment,
+				RatingTime = DateTime.Now,
 				RestaurantId = model.RestaurantId,
 				UserId = (await UserService.GetCurrentUser()).Id
 			});
