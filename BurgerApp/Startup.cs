@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BurgerApp.Api.Configurations;
 using BurgerApp.Api.Services;
 using BurgerApp.Dal;
 using BurgerApp.Dal.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +29,7 @@ namespace BurgerApp
 
 			services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<BurgerAppDbContext>().AddDefaultTokenProviders();
 
+			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IRestaurantService, RestaurantService>();
 			services.AddScoped<IBurgerService, BurgerService>();
 

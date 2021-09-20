@@ -12,11 +12,13 @@ namespace BurgerApp.Api.Services
 	{
 		private BurgerAppDbContext DbContext { get; }
 		private PagingConfiguration PagingConfig { get; }
+		private IUserService UserService { get; }
 
-		public RestaurantService(BurgerAppDbContext dbContext, IOptions<PagingConfiguration> pagingConfig)
+		public RestaurantService(BurgerAppDbContext dbContext, IOptions<PagingConfiguration> pagingConfig, IUserService userService)
 		{
 			DbContext = dbContext;
 			PagingConfig = pagingConfig.Value;
+			UserService = userService;
 		}
 
 		public async Task<PagedResult<ResturantListModel>> GetRestaurantsAtLocation(string location, int page = 1)
@@ -46,7 +48,7 @@ namespace BurgerApp.Api.Services
 				VisualPresentation = model.VisualPresentationRating ?? 0,
 				Comment = model.Comment,
 				RestaurantId = model.RestaurantId,
-				//TODO: User
+				UserId = (await UserService.GetCurrentUser()).Id
 			});
 
 			await DbContext.SaveChangesAsync();
