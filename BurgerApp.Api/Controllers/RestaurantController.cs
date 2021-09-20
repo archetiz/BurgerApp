@@ -1,6 +1,6 @@
 ﻿using BurgerApp.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using System.Threading.Tasks;
 
 namespace BurgerApp.Api
 {
@@ -8,23 +8,20 @@ namespace BurgerApp.Api
 	[Route("api/restaurant")]
 	public class RestaurantController : ControllerBase
 	{
-		public RestaurantService RestaurantService { get; set; }
+		public IRestaurantService RestaurantService { get; set; }
 
-		public RestaurantController(RestaurantService restaurantService)
+		public RestaurantController(IRestaurantService restaurantService)
 		{
 			RestaurantService = restaurantService;
 		}
 
 		[HttpGet("{location}")]
-		public void GetRestaurants(string location)
-		{
-
-		}
+		[HttpGet("{location}/{page}")]
+		public async Task<PagedResult<ResturantListModel>> GetRestaurants(string location, int page = 1)
+			=> await RestaurantService.GetRestaurantsAtLocation(location, page);
 
 		[HttpPost("rate")]
-		public void RateRestaurant(RestaurantRateModel model)
-		{
-
-		}
+		public async Task<AddResult> RateRestaurant(RestaurantRateModel model)
+			=> await RestaurantService.AddRating(model);
 	}
 }
