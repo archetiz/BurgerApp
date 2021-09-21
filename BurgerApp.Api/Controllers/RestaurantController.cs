@@ -39,5 +39,11 @@ namespace BurgerApp.Api
 		[Authorize(Roles = "Admin")]
 		public async Task<AddResult> AddRestaurant(RestaurantAddModel model)
 			=> await RestaurantService.AddRestaurant(model);
+
+		[HttpGet("{restaurantId}/burgers")]
+		[HttpGet("{restaurantId}/burgers/{page}")]
+		[Authorize]
+		public async Task<PagedResult<RestaurantBurgerListModel>> GetRestaurantBurgers(Guid restaurantId, int page = 1)
+			=> await RestaurantService.GetRestaurantBurgers(restaurantId, page);
 	}
 }

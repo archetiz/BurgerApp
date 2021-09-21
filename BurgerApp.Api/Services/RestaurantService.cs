@@ -92,5 +92,22 @@ namespace BurgerApp.Api.Services
 
 			return new AddResult(restaurant.Entity.Id);
 		}
+
+		public async Task<PagedResult<RestaurantBurgerListModel>> GetRestaurantBurgers(Guid restaurantId, int page)
+		{
+			return (await DbContext.Burgers
+									.Where(b => b.RestaurantId == restaurantId)
+									.OrderBy(b => b.UploadTime)
+									.GetPaged(page, PagingConfig.PageSize, out int totalPages)
+									.Select(burger => new RestaurantBurgerListModel
+									{
+										Id = burger.Id,
+										Photo = burger.Photo,
+										Comment = burger.Comment,
+										UploadTime = burger.UploadTime
+									})
+									.ToListAsync())
+									.GetPagedResult(page, PagingConfig.PageSize, totalPages);
+		}
 	}
 }
