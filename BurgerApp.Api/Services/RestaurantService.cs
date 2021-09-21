@@ -25,7 +25,7 @@ namespace BurgerApp.Api.Services
 		public async Task<PagedResult<ResturantListModel>> GetRestaurantsAtLocation(string location, int page)
 		{
 			return (await DbContext.Restaurants
-									.Where(r => r.Location.Equals(location))
+									.Where(r => string.IsNullOrEmpty(location) || r.Location.Equals(location))
 									.OrderBy(r => r.Name)
 									.GetPaged(page, PagingConfig.PageSize, out int totalPages)
 									.Select(restaurant => new ResturantListModel
