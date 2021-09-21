@@ -45,5 +45,27 @@ namespace BurgerApp.Api
 		[Authorize]
 		public async Task<PagedResult<RestaurantBurgerListModel>> GetRestaurantBurgers(Guid restaurantId, int page = 1)
 			=> await RestaurantService.GetRestaurantBurgers(restaurantId, page);
+
+		[HttpDelete("{ratingId}")]
+		[Authorize]
+		public void DeleteRating(Guid ratingId)
+		{
+			// Here the user would be able to delete his/her own ratings
+			// The deletion would go as below:
+			// 1. Set a flag (e.g. IsActive) on the entry to be deleted
+			// 2. Erase any comment data to respect the user's privacy
+			// Note: oviously the user could only delete rating entries that specifically he/she has created
+			throw new NotImplementedException();
+		}
+
+		[HttpDelete("{restaurantId}")]
+		[Authorize(Roles = "Admin")]
+		public void DeleteRestaurant(Guid restaurantId)
+		{
+			// Here administrators would be able to delete restaurants (e.g. because they no longer exist)
+			// The deletion would only mean setting a flag (e.g. IsActive)
+			// on the entry to be deleted to preserve the consistency of the database
+			throw new NotImplementedException();
+		}
 	}
 }
