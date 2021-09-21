@@ -76,6 +76,7 @@ namespace BurgerApp.Api.Services
 									.GetPaged(page, PagingConfig.PageSize, out int totalPages)
 									.Select(rating => new RestaurantRatingListModel
 									{
+										Id = rating.Id,
 										TasteRating = rating.Taste,
 										TextureRating = rating.Texture,
 										VisualPresentationRating = rating.VisualPresentation,
