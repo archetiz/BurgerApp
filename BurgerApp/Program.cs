@@ -1,19 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using BurgerApp.Dal;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace BurgerApp
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
+			var host = await CreateHostBuilder(args)
+											.Build()
+											.MigrateDatabase<BurgerAppDbContext>();
+			host.Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>

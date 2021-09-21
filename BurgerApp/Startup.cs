@@ -2,7 +2,9 @@ using System;
 using BurgerApp.Api.Configurations;
 using BurgerApp.Api.Services;
 using BurgerApp.Dal;
+using BurgerApp.Dal.Configurations;
 using BurgerApp.Dal.Entities;
+using BurgerApp.Dal.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,10 +33,14 @@ namespace BurgerApp
 
 			services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<BurgerAppDbContext>().AddDefaultTokenProviders();
 
+			services.AddScoped<IRoleSeedService, RoleSeedService>();
+			services.AddScoped<IUserSeedService, UserSeedService>();
+
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IRestaurantService, RestaurantService>();
 			services.AddScoped<IBurgerService, BurgerService>();
 
+			services.Configure<DefaultAdministratorConfiguration>(options => Configuration.GetSection("DefaultAdministrator").Bind(options));
 			services.Configure<PagingConfiguration>(options => Configuration.GetSection("Paging").Bind(options));
 			services.Configure<UploadsConfiguration>(options => Configuration.GetSection("Uploads").Bind(options));
 
