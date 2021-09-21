@@ -26,5 +26,10 @@ namespace BurgerApp.Api.Controllers
 		[Authorize]
 		public async Task Logout()
 			=> await UserService.Logout();
+
+		[HttpPost("register")]
+		[AllowAnonymous]
+		public async Task<RegistrationResultModel> Register(RegistrationModel model)
+			=> await UserService.RegisterUser(model);
 	}
 }

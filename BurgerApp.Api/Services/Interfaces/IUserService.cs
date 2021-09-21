@@ -8,5 +8,6 @@ namespace BurgerApp.Api.Services
 		Task<LoginResultModel> Login(LoginModel loginModel);
 		Task Logout();
 		Task<User> GetCurrentUser();
+		Task<RegistrationResultModel> RegisterUser(RegistrationModel model);
 	}
 }

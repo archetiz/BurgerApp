@@ -1,4 +1,4 @@
-﻿namespace BurgerApp.Dal.Seed
+﻿namespace BurgerApp.Dal
 {
 	public class Roles
 	{

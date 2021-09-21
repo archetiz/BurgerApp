@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace BurgerApp.Api.Services
 {
@@ -49,5 +50,27 @@ namespace BurgerApp.Api.Services
 
 		public async Task<User> GetCurrentUser()
 			=> await UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User);
+
+		public async Task<RegistrationResultModel> RegisterUser(RegistrationModel model)
+		{
+			if ((await DbContext.Users.CountAsync(u => u.UserName == model.UserName || u.Email == model.Email)) > 0)
+				throw new ArgumentException("A user with the given credentials already exists.");
+
+			var user = new User
+			{
+				UserName = model.UserName,
+				Email = model.Email,
+				Name = model.Name,
+				SecurityStamp = Guid.NewGuid().ToString()
+			};
+
+			var createResult = await UserManager.CreateAsync(user, model.Password);
+			var addToRoleResult = await UserManager.AddToRoleAsync(user, Roles.User);
+
+			if (!createResult.Succeeded || !addToRoleResult.Succeeded)
+				throw new ApplicationException("Error registering new user.");
+
+			return new RegistrationResultModel(true);
+		}
 	}
 }
