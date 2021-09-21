@@ -10,16 +10,17 @@ namespace BurgerApp.Api
 	[Produces("application/json")]
 	public class BurgerController : ControllerBase
 	{
-		private BurgerService BurgerService { get; }
+		private IBurgerService BurgerService { get; }
 
-		public BurgerController(BurgerService burgerService)
+		public BurgerController(IBurgerService burgerService)
 		{
 			BurgerService = burgerService;
 		}
 
 		[HttpPost]
 		[Authorize]
-		public async Task<AddResult> UploadBurger(BurgerUploadModel model)
+		[Consumes("multipart/form-data")]
+		public async Task<AddResult> UploadBurger([FromForm] BurgerUploadModel model)
 			=> await BurgerService.UploadBurger(model);
 	}
 }

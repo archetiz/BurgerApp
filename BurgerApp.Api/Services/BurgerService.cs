@@ -68,7 +68,9 @@ namespace BurgerApp.Api.Services
 
 			string filePath = filePathBuilder.ToString();
 
-			await File.WriteAllBytesAsync(filePath, imageBytes);
+			filePathBuilder.Insert(0, UploadsConfig.MediaPathRoot);	//Add media root to save path only
+
+			await File.WriteAllBytesAsync(filePathBuilder.ToString(), imageBytes);
 
 			return filePath;
 		}
