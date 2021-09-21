@@ -8,8 +8,7 @@ namespace BurgerApp.Api
 	[ApiController]
 	[Route("api/burger")]
 	[Produces("application/json")]
-	[Authorize]
-	class BurgerController : ControllerBase
+	public class BurgerController : ControllerBase
 	{
 		private BurgerService BurgerService { get; }
 
@@ -19,6 +18,7 @@ namespace BurgerApp.Api
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<AddResult> UploadBurger(BurgerUploadModel model)
 			=> await BurgerService.UploadBurger(model);
 	}
