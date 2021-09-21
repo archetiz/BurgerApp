@@ -1,6 +1,7 @@
 ﻿using BurgerApp.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace BurgerApp.Api
@@ -27,6 +28,12 @@ namespace BurgerApp.Api
 		[Authorize]
 		public async Task<AddResult> RateRestaurant(RestaurantRateModel model)
 			=> await RestaurantService.AddRating(model);
+
+		[HttpGet("{restaurantId}/ratings")]
+		[HttpGet("{restaurantId}/ratings/{page}")]
+		[Authorize]
+		public async Task<PagedResult<RestaurantRatingListModel>> GetRestaurantRatings(Guid restaurantId, int page = 1)
+			=> await RestaurantService.GetRestaurantRatings(restaurantId, page);
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]

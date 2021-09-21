@@ -22,7 +22,7 @@ namespace BurgerApp.Api.Services
 			UserService = userService;
 		}
 
-		public async Task<PagedResult<ResturantListModel>> GetRestaurantsAtLocation(string location, int page = 1)
+		public async Task<PagedResult<ResturantListModel>> GetRestaurantsAtLocation(string location, int page)
 		{
 			return (await DbContext.Restaurants
 									.Where(r => r.Location.Equals(location))
@@ -57,6 +57,24 @@ namespace BurgerApp.Api.Services
 			await DbContext.SaveChangesAsync();
 
 			return new AddResult(rating.Entity.Id);
+		}
+
+		public async Task<PagedResult<RestaurantRatingListModel>> GetRestaurantRatings(Guid restaurantId, int page)
+		{
+			return (await DbContext.Ratings
+									.Where(r => r.RestaurantId == restaurantId)
+									.OrderBy(r => r.RatingTime)
+									.GetPaged(page, PagingConfig.PageSize, out int totalPages)
+									.Select(rating => new RestaurantRatingListModel
+									{
+										TasteRating = rating.Taste,
+										TextureRating = rating.Texture,
+										VisualPresentationRating = rating.VisualPresentation,
+										Comment = rating.Comment,
+										RatingTime = rating.RatingTime
+									})
+									.ToListAsync())
+									.GetPagedResult(page, PagingConfig.PageSize, totalPages);
 		}
 
 		public async Task<AddResult> AddRestaurant(RestaurantAddModel model)
