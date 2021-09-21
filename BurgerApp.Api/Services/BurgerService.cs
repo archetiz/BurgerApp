@@ -27,6 +27,10 @@ namespace BurgerApp.Api.Services
 		{
 			try
 			{
+				var restaurant = await DbContext.Restaurants.FindAsync(model.RestaurantId);
+				if (restaurant == null)
+					throw new ArgumentException("Restaurant does not exist.");
+
 				string photoFilePath = await SavePhoto(model.Photo);
 
 				var burger = DbContext.Burgers.Add(new Burger

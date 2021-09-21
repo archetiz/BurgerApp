@@ -42,6 +42,15 @@ namespace BurgerApp.Api.Services
 
 		public async Task<AddResult> AddRating(RestaurantRateModel model)
 		{
+			var restaurant = await DbContext.Restaurants.FindAsync(model.RestaurantId);
+			if (restaurant == null)
+				throw new ArgumentException("Restaurant does not exist.");
+
+			if (model.TasteRating < 0 || model.TasteRating > 5
+			 || model.TextureRating < 0 || model.TextureRating > 5
+			 || model.VisualPresentationRating < 0 || model.VisualPresentationRating > 5)
+				throw new ArgumentException("Invalid rating value.");
+
 			var rating = DbContext.Ratings.Add(new Rating()
 			{
 				Id = Guid.NewGuid(),
