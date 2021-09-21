@@ -6,5 +6,6 @@ namespace BurgerApp.Api.Services
 	{
 		Task<PagedResult<ResturantListModel>> GetRestaurantsAtLocation(string location, int page);
 		Task<AddResult> AddRating(RestaurantRateModel model);
+		Task<AddResult> AddRestaurant(RestaurantAddModel model);
 	}
 }

@@ -58,5 +58,21 @@ namespace BurgerApp.Api.Services
 
 			return new AddResult(rating.Entity.Id);
 		}
+
+		public async Task<AddResult> AddRestaurant(RestaurantAddModel model)
+		{
+			var restaurant = DbContext.Restaurants.Add(new Restaurant()
+			{
+				Id = Guid.NewGuid(),
+				Name = model.Name,
+				Location = model.Location,
+				OpeningTime = model.OpeningTime,
+				ClosingTime = model.ClosingTime
+			});
+
+			await DbContext.SaveChangesAsync();
+
+			return new AddResult(restaurant.Entity.Id);
+		}
 	}
 }
