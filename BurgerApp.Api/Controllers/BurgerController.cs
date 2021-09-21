@@ -7,6 +7,7 @@ namespace BurgerApp.Api
 {
 	[ApiController]
 	[Route("api/burger")]
+	[Produces("application/json")]
 	[Authorize]
 	class BurgerController : ControllerBase
 	{
